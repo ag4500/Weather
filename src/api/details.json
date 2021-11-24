@@ -1,0 +1,16 @@
+[
+  {
+    "username": "anj1200",
+    "password": 123456,
+    "name": "Anjali",
+    "email": "anj@123",
+    "city": "indore"
+  },
+  {
+    "username": "customer",
+    "password": 123456,
+    "name": "Customer",
+    "email": "cust@123",
+    "city": "bhopal"
+  }
+]
