@@ -1,6 +1,13 @@
 export const LogIn = "LogIn";
 export const SetUsers = "SetUsers";
 export const ShowHide = "ShowHide";
+export const Location="Location"
+export const Index="Index"
+export const Weather="Weather"
+export const SearchWeather="SearchWeather"
+export const Search="Search"
+export const Count="Count"
+export const Permission="Permission"
 export const login = (payload) => ({
   type: LogIn,
   payload,
@@ -13,3 +20,31 @@ export const showHide = (payload) => ({
   type: ShowHide,
   payload,
 });
+export const location = (payload) => ({
+  type: Location,
+  payload,
+});
+export const index= (payload) => ({
+  type: Index,
+  payload,
+});
+export const weather= (payload) => ({
+  type: Weather,
+  payload,
+});
+export const search= (payload) => ({
+  type: Search,
+  payload,
+})
+export const searchweather=(payload)=>({
+  type: SearchWeather,
+  payload,
+})
+export const count =(payload)=>({
+  type: Count,
+  payload,
+})
+export const permission =(payload)=>({
+  type: Permission,
+  payload,
+})
