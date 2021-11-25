@@ -14,7 +14,7 @@ const GetHistory = () => {
                 <tr>
                   <th>UserName</th>
                   <th>LogInDateTime</th>
-                  <th>City Activity</th>
+                  
                 </tr>
               </thead>
               <tbody>

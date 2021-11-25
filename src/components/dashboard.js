@@ -20,12 +20,12 @@ const DashBoard = () => {
   };
   const OnSubmit = (e) => {
     e.preventDefault();
-    let citydata = { city: locations.city, date: new Date().toLocaleString() };
-    let getdata = localStorage.getItem("new") || "[]";
+    let cityData = { city: locations.city, date: new Date().toLocaleString() };
+    let getdata = localStorage.getItem("citydata") || "[]";
     let parsedata = JSON.parse(getdata);
     localStorage.setItem(
       "citydata",
-      JSON.stringify(parsedata.concat(citydata))
+      JSON.stringify(parsedata.concat(cityData))
     );
     dispatch(searchCity(locations.city));
   };
