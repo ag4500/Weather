@@ -8,7 +8,7 @@ export const Search = "Search";
 export const Count = "Count";
 export const Permission = "Permission";
 export const SearchByCity = "SearchByCity";
-export const HistoryCity = "HistoryCity";
+
 export const login = (payload) => ({
   type: LogIn,
   payload,
@@ -49,7 +49,4 @@ export const permission = (payload) => ({
   type: Permission,
   payload,
 });
-export const historyCity = (payload) => ({
-  type: HistoryCity,
-  payload,
-});
+

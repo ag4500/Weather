@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { login, location, search, historyCity, permission } from "../action";
+import { login, location, search,  permission } from "../action";
 import { weathers, searchCity, geocord } from "../thunks/weather";
 import { Card } from "react-bootstrap";
 import user from "../api/details.json";
@@ -15,7 +15,7 @@ const DashBoard = () => {
     dispatch(search(locations.city));
   };
   const handleLogOut = () => {
-    dispatch(login(!locations.loggedIn));
+    dispatch(login(!locations.loggedIn,locations.data=locations.record));
     history.push('/')
   };
   const OnSubmit = (e) => {
@@ -28,9 +28,6 @@ const DashBoard = () => {
       JSON.stringify(parsedata.concat(citydata))
     );
     dispatch(searchCity(locations.city));
-    dispatch(
-      historyCity({ city: locations.city, date: new Date().toLocaleString() })
-    );
   };
   useEffect(() => {
     let getname = localStorage.getItem("users") || "[]";

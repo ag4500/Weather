@@ -9,7 +9,6 @@ import {
   Index,
   SearchByCity,
   Permission,
-  HistoryCity
 } from "../action";
 const initialState = {
   toggle: false,
@@ -25,7 +24,6 @@ const initialState = {
   },
   index: [],
   searchcity: [],
-  historycity:{},
   weatherDetail: [],
   city: "",
   count: [],
@@ -83,11 +81,7 @@ const login = (state = initialState, action) => {
         ...state,
         searchcity: action.payload,
       };
-    case HistoryCity:
-      return {
-        ...state,
-        historycity: action.payload,
-      };
+
     default:
       return state;
   }
