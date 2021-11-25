@@ -7,7 +7,9 @@ import {
   Location,
   Weather,
   Index,
+  SearchByCity,
   Permission,
+  HistoryCity
 } from "../action";
 const initialState = {
   toggle: false,
@@ -22,9 +24,11 @@ const initialState = {
     longitude: "",
   },
   index: [],
-  weather: [],
+  searchcity: [],
+  historycity:{},
+  weatherDetail: [],
   city: "",
-  count: {},
+  count: [],
   permission: false,
 };
 const login = (state = initialState, action) => {
@@ -57,7 +61,7 @@ const login = (state = initialState, action) => {
     case Weather:
       return {
         ...state,
-        weather: action.payload,
+        weatherDetail: action.payload,
       };
     case Search:
       return {
@@ -73,6 +77,16 @@ const login = (state = initialState, action) => {
       return {
         ...state,
         permission: action.payload,
+      };
+    case SearchByCity:
+      return {
+        ...state,
+        searchcity: action.payload,
+      };
+    case HistoryCity:
+      return {
+        ...state,
+        historycity: action.payload,
       };
     default:
       return state;

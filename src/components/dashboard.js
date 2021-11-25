@@ -1,41 +1,53 @@
 import { useEffect } from "react";
-import { location, search, permission } from "../action";
-import { weathers } from "../thunks/weather";
-import { ListGroup } from "react-bootstrap";
-import { Form, Button, FormControl, InputGroup } from "react-bootstrap";
+import { login, location, search, historyCity, permission } from "../action";
+import { weathers, searchCity, geocord } from "../thunks/weather";
+import { Card } from "react-bootstrap";
 import user from "../api/details.json";
+import { Button } from "react-bootstrap";
+import { useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 const DashBoard = () => {
+  const history = useHistory();
   const locations = useSelector((state) => state.login);
   const dispatch = useDispatch();
-  const dispatchs = useDispatch();
   onchange = (e) => {
     locations.city = e.target.value;
-    dispatchs(search(locations.city));
+    dispatch(search(locations.city));
+  };
+  const handleLogOut = () => {
+    dispatch(login(!locations.loggedIn));
+    history.push('/')
   };
   const OnSubmit = (e) => {
-    let date = new Date().toLocaleString();
     e.preventDefault();
-    let getcity = localStorage.getItem("city");
-    let getdate = localStorage.getItem("citydate");
-    if (getcity === null || getdate === null) {
-      getcity = "";
-      getdate = "";
-    }
-    localStorage.setItem("city", getcity.concat(locations.city));
-    localStorage.setItem("citydate", getdate.concat(date));
-
-    dispatch(weathers(locations.city));
+    let citydata = { city: locations.city, date: new Date().toLocaleString() };
+    let getdata = localStorage.getItem("new") || "[]";
+    let parsedata = JSON.parse(getdata);
+    localStorage.setItem(
+      "citydata",
+      JSON.stringify(parsedata.concat(citydata))
+    );
+    dispatch(searchCity(locations.city));
+    dispatch(
+      historyCity({ city: locations.city, date: new Date().toLocaleString() })
+    );
   };
   useEffect(() => {
+    let getname = localStorage.getItem("users") || "[]";
+    const getusers = JSON.parse(getname);
+    localStorage.setItem(
+      "users",
+      JSON.stringify(getusers.concat(locations.count))
+    );
     function success(position) {
       const { latitude, longitude } = position.coords;
       const data = { ...locations.location, latitude, longitude };
-      dispatchs(location(data));
-      dispatchs(permission(!locations.permission));
+      dispatch(geocord(data));
+      dispatch(location(data));
+      dispatch(permission(!locations.permission));
     }
     function errors(err) {
-      dispatchs(permission(!locations.permission));
+      dispatch(permission(!locations.permission));
       dispatch(weathers(user[locations.index].city));
       console.warn(`ERROR(${err.code}): ${err.message}`);
     }
@@ -54,43 +66,135 @@ const DashBoard = () => {
     } else {
       alert("Sorry Not available!");
     }
-  }, [dispatch,dispatchs]);
-  return(
+    console.log(navigator);
+  }, []);
+  return (
     <>
-      <div className="container">
-        <form className="col-sm-3" onSubmit={OnSubmit}>
-          <input
-            className="form-control me-2"
-            type="search"
-            name="city"
-            value={locations.city}
-            onChange={(event) => onchange(event)}
-            placeholder="Search By City"
-            aria-label="Search"
-          ></input>{" "}
-          <button className="btn btn-outline-success" type="submit">
-            Search
-          </button>
-        </form>
-        <div>
-          "Latitude"<p>{locations.location.latitude}</p>
-          "Longitude"<p>{locations.location.longitude}</p>
-        </div>
+      <Button className="my-2" variant="danger" onClick={handleLogOut}>
+        Logout
+      </Button>
+      <div className="container ">
+        <div className="row">
+          <div className="col">
+            <Card.Header style={{ width: "18rem" }}>
+              {locations.weatherDetail.weather
+                ? locations.weatherDetail.name
+                : undefined}
+            </Card.Header>
 
-        {locations.weather.map((data) => (
-          <ul key={data.id}>
-            <li style={{ listStyleType: "square" }}>
-              <ListGroup>
-                <ListGroup.Item>
-                  {data.main} {data.description} {data.icon}
-                </ListGroup.Item>
-              </ListGroup>
-            </li>
-          </ul>
-        ))}
+            {locations.weatherDetail.weather
+              ? locations.weatherDetail.weather.map((i) => (
+                  <Card style={{ width: "18rem" }}>
+                    <Card.Body>
+                      <Card.Title>Weather</Card.Title>
+                      <Card.Text>{i.main}</Card.Text>
+                      <Card.Text>{i.description}</Card.Text>
+                      <Card.Text>{i.icon}</Card.Text>
+                    </Card.Body>
+                  </Card>
+                ))
+              : "Hiii"}
+            <div className="col">
+              {locations.weatherDetail.weather ? (
+                <Card style={{ width: "18rem" }}>
+                  <Card.Body>
+                    <Card.Title>Temperature</Card.Title>
+                    <Card.Text>
+                      Max. Temperature : {locations.weatherDetail.main.temp}
+                    </Card.Text>
+                    <Card.Text>
+                      {" "}
+                      Pressure:
+                      {locations.weatherDetail.main.pressure}
+                    </Card.Text>
+                    <Card.Text>
+                      {" "}
+                      Humidity :{locations.weatherDetail.main.humidity}
+                    </Card.Text>
+                    <Card.Text>
+                      Speed : {locations.weatherDetail.wind.speed}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              ) : (
+                "wait"
+              )}
+            </div>
+          </div>
+
+          <div className="col">
+            <form onSubmit={OnSubmit}>
+              <input
+                className="form-control me-2"
+                type="search"
+                name="city"
+                value={locations.city}
+                onChange={(event) => onchange(event)}
+                placeholder="Search By City"
+                aria-label="Search"
+              ></input>{" "}
+              <button className="btn btn-outline-success" type="submit">
+                Search
+              </button>
+            </form>
+          </div>
+
+          <div className="col-3">
+            <Card.Header style={{ width: "18rem" }}>
+              {locations.searchcity.weather
+                ? locations.searchcity.name
+                : undefined}
+            </Card.Header>
+
+            {locations.searchcity.weather
+              ? locations.searchcity.weather.map((i) => (
+                  <Card style={{ width: "18rem" }}>
+                    <Card.Body>
+                      <Card.Title>Weather</Card.Title>
+                      <Card.Text>{i.main}</Card.Text>
+                      <Card.Text>{i.description}</Card.Text>
+                      <Card.Text>{i.icon}</Card.Text>
+                    </Card.Body>
+                  </Card>
+                ))
+              : undefined}
+            <div className="col">
+              {locations.searchcity.weather ? (
+                <Card style={{ width: "18rem" }}>
+                  <Card.Body>
+                    <Card.Title>Temperature</Card.Title>
+                    <Card.Text>
+                      Max. Temperature : {locations.searchcity.main.temp}
+                    </Card.Text>
+                    <Card.Text>
+                      {" "}
+                      Pressure:
+                      {locations.searchcity.main.pressure}
+                    </Card.Text>
+                    <Card.Text>
+                      {" "}
+                      Humidity :{locations.searchcity.main.humidity}
+                    </Card.Text>
+                    <Card.Text>
+                      Speed : {locations.searchcity.wind.speed}
+                    </Card.Text>
+                  </Card.Body>
+                </Card>
+              ) : undefined}
+            </div>
+          </div>
+        </div>
       </div>
     </>
-  ) 
-  
+  );
 };
 export default DashBoard;
+/*
+<div className="container">
+        
+
+        
+        
+        </div>
+    </>
+*/

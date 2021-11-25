@@ -20,38 +20,27 @@ const Login = () => {
       (i) => i.username == username && i.password == password
     );
     if (logIn) {
-      let date = new Date().toLocaleString();
       const countdata = updateUsers.count;
       if (userindex in updateUsers.count) {
         dispatch(
-          count({ ...countdata, [userindex]: updateUsers.count[userindex] + 1 })
+          count([{ ...countdata, [userindex]: updateUsers.count[userindex] + 1,"date": new Date().toLocaleString(),'username':username ,"count": updateUsers.count[userindex] + 1}])
         );
       } else {
-        dispatch(count({ ...countdata, [userindex]: countuser }));
+        dispatch(count([{ ...countdata, [userindex]: countuser,"date": new Date().toLocaleString(),'username':username ,"count": updateUsers.count[userindex]}]));
       }
       dispatch(
         login(!updateUsers.loggedIn),
         (updateUsers.data = updateUsers.record)
       );
-      let get = localStorage.getItem("user");
-      let getcount = localStorage.getItem("count");
-      let getdate = localStorage.getItem("date");
-      if (get === undefined || getcount === undefined || getdate === null) {
-        get = "";
-        getcount = "";
-        getdate = "";
-      }
-      localStorage.setItem("user", get.concat(username));
-      localStorage.setItem("count", getcount.concat(updateUsers.count[userindex]));
-      localStorage.setItem("date", getdate.concat(date));
-     
-      history.push("/dashboard")
+      dispatch(showHide(!updateUsers.toggle));
+      history.push("/dashboard");
       dispatch(index(userindex));
     } else {
       alert("please Logged In with valid username and password");
     }
   };
-
+  
+  
   const handleHideToggle = () => {
     dispatch(showHide(!updateUsers.toggle));
   };
@@ -106,7 +95,7 @@ const Login = () => {
           </Modal>
         </div>
       ) : (
-        console.log("no")
+        undefined
       )}
     </>
   );
