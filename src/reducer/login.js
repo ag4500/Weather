@@ -56,7 +56,7 @@ const weatherReducer = (state = initialState, action) => {
         weatherDetail: action.payload,
       };
     case Set_City:
-      debugger
+      
       return {
         ...state,
         city: action.payload,

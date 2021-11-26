@@ -7,7 +7,7 @@ export const getCityWeather = (city) => async (dispatch) => {
     );
     dispatch(getWeatherDetail(citys.data));
   } catch (error) {
-    console.log("errror");
+    alert("WeatherCity",error);
   }
 };
 export const getCityCoordinate = (data) => async (dispatch) => {
@@ -17,11 +17,11 @@ export const getCityCoordinate = (data) => async (dispatch) => {
     );
     dispatch(getCityWeather(geo.data.name));
   } catch (error) {
-    console.log("errror");
+    alert(error);
   }
 };
 export const searchCity=(searchcity)=>async(dispatch)=>{
-  console.log(searchcity)
+ 
   try {
     const searchcitys = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?q=${searchcity}&appid=55228663782794261c86a7a39a9d3ce7`
@@ -29,6 +29,6 @@ export const searchCity=(searchcity)=>async(dispatch)=>{
     dispatch(getSearchCityDetail(searchcitys.data));
   } catch (error) {
 
-    console.log("errror",searchcity);
+    alert("Search",error);
   }
 }
