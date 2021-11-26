@@ -45,7 +45,7 @@ const Login = () => {
       "historydata",
       JSON.stringify(parsedata.concat(userData))
     );
-      //history.push("/dashboard");
+      history.push("/dashboard");
       dispatch(index(userindex));
     } else {
       alert("please Logged In with valid username and password");
