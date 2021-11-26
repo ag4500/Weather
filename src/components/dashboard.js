@@ -1,6 +1,10 @@
 import { useEffect } from "react";
-import { login, location, search,  permission } from "../action";
-import { weathers, searchCity, geocord } from "../thunks/weather";
+import { isLogin, getCityByCoordinate, onChangeCity } from "../action";
+import {
+  getCityWeather,
+  searchCity,
+  getCityCoordinate,
+} from "../thunks/weather";
 import { Card } from "react-bootstrap";
 import user from "../api/details.json";
 import { Button } from "react-bootstrap";
@@ -8,15 +12,15 @@ import { useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 const DashBoard = () => {
   const history = useHistory();
-  const locations = useSelector((state) => state.login);
+  const locations = useSelector((state) => state.weatherReducer);
   const dispatch = useDispatch();
   onchange = (e) => {
     locations.city = e.target.value;
-    dispatch(search(locations.city));
+    dispatch(onChangeCity(locations.city));
   };
   const handleLogOut = () => {
-    dispatch(login(!locations.loggedIn,locations.data=locations.record));
-    history.push('/')
+    dispatch(isLogin(!locations.loggedIn, (locations.data = locations.record)));
+    history.push("/");
   };
   const OnSubmit = (e) => {
     e.preventDefault();
@@ -32,14 +36,12 @@ const DashBoard = () => {
   useEffect(() => {
     function success(position) {
       const { latitude, longitude } = position.coords;
-      const data = { ...locations.location, latitude, longitude };
-      dispatch(geocord(data));
-      dispatch(location(data));
-      dispatch(permission(!locations.permission));
+      const data = { ...locations.coordinate, latitude, longitude };
+      dispatch(getCityCoordinate(data));
+      dispatch(getCityByCoordinate(data));
     }
     function errors(err) {
-      dispatch(permission(!locations.permission));
-      dispatch(weathers(user[locations.index].city));
+      dispatch(getCityWeather(user[locations.index].city));
       console.warn(`ERROR(${err.code}): ${err.message}`);
     }
     if (navigator.geolocation) {
@@ -51,7 +53,7 @@ const DashBoard = () => {
           } else if (result.state === "prompt") {
             navigator.geolocation.getCurrentPosition(success, errors);
           } else if (result.state === "denied") {
-            dispatch(weathers(user[locations.index].city));
+            dispatch(getCityWeather(user[locations.index].city));
           }
         });
     } else {

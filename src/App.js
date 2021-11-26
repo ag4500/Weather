@@ -7,7 +7,7 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import GetHistory from "./components/history";
 function App() {
-  const getuser = useSelector((state) => state.login);
+  const getuser = useSelector((state) => state.weatherReducer);
   return (
     <Router>
       <div className="App">

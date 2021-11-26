@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import login from './login';
+import weatherReducer from './login';
 export default combineReducers({
-    login,
+  weatherReducer,
   })

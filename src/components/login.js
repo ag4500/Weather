@@ -1,58 +1,47 @@
 import { Form } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-import { setuser, count,historyUser, login, showHide, index } from "../action";
+import { setUser, isLogin, showHide } from "../action";
 import user from "../api/details.json";
 import { useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { FormControl, InputGroup } from "react-bootstrap";
 const Login = () => {
-  let countuser = 1;
   const dispatch = useDispatch();
   const history = useHistory();
-  const updateUsers = useSelector((state) => state.login);
+  const updateUsers = useSelector((state) => state.weatherReducer);
   const onSumbit = (e) => {
     e.preventDefault();
-    const logIn = user.find(
+    const matchUser = user.find(
       (i) => i.username == username && i.password == password
     );
-    const userindex = user.findIndex(
-      (i) => i.username == username && i.password == password
-    );
-    if (logIn) {
-      const countdata = updateUsers.count;
-      if (userindex in updateUsers.count) {
-        dispatch(
-          count([{ ...countdata, [userindex]: updateUsers.count[userindex] + 1,"date": new Date().toLocaleString(),'username':username ,"count": updateUsers.count[userindex] + 1}])
-        );
-      } else {
-        dispatch(count([{ ...countdata, [userindex]: countuser,"date": new Date().toLocaleString(),'username':username ,"count": updateUsers.count[userindex]}]));
-      }
+    if (matchUser) {
+      let userData = {
+        name: username,
+        count: 1,
+        date: new Date().toLocaleString(),
+      };
+      let getdata = localStorage.getItem("historydata") || "[]";
+      let parsedata = JSON.parse(getdata);
+      parsedata.map((i) => {
+        if (i.name == userData.name) {
+          userData.count += 1;
+        }
+      });
+      localStorage.setItem(
+        "historydata",
+        JSON.stringify(parsedata.concat(userData))
+      );
       dispatch(
-        login(!updateUsers.loggedIn),
+        isLogin(!updateUsers.loggedIn),
         (updateUsers.data = updateUsers.record)
       );
       dispatch(showHide(!updateUsers.toggle));
-      let userData = { name: username,count:updateUsers.history, date: new Date().toLocaleString() };
-      let getdata = localStorage.getItem("historydata") || "[]";
-      let parsedata = JSON.parse(getdata);
-      if (parsedata.name==username){
-        parsedata.count+=1
-        dispatch(historyUser(updateUsers.count+1))
-        alert(parsedata,username)
-      }
-      localStorage.setItem(
-      "historydata",
-      JSON.stringify(parsedata.concat(userData))
-    );
       history.push("/dashboard");
-      dispatch(index(userindex));
     } else {
       alert("please Logged In with valid username and password");
     }
   };
-  
-  
   const handleHideToggle = () => {
     dispatch(showHide(!updateUsers.toggle));
   };
@@ -63,7 +52,7 @@ const Login = () => {
   const onChange = (e) => {
     const { name, value } = e.target;
     const addusers = { ...updateUsers.data, [name]: value };
-    dispatch(setuser(addusers));
+    dispatch(setUser(addusers));
   };
   return (
     <>
@@ -106,9 +95,7 @@ const Login = () => {
             </Modal.Body>
           </Modal>
         </div>
-      ) : (
-        undefined
-      )}
+      ) : undefined}
     </>
   );
 };

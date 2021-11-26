@@ -1,15 +1,11 @@
 import {
-  LogIn,
+  IsLogIn,
   SetUsers,
-  Search,
+  OnChangeCity,
   ShowHide,
-  Count,
-  Location,
-  Weather,
-  Index,
-  SearchByCity,
-  Permission,
-  HistoryUser,
+  GetCityByCoordinate,
+  GetWeatherDetail,
+  GetSearchCityDetail,
 } from "../action";
 const initialState = {
   toggle: false,
@@ -19,19 +15,15 @@ const initialState = {
   },
   record: {},
   loggedIn: false,
-  location: {
+  coordinate: {
     latitude: "",
     longitude: "",
   },
-  index: [],
   searchcity: [],
   weatherDetail: [],
   city: "",
-  count: [],
-  permission: false,
-  history:1
 };
-const login = (state = initialState, action) => {
+const weatherReducer = (state = initialState, action) => {
   switch (action.type) {
     case ShowHide:
       return {
@@ -43,54 +35,35 @@ const login = (state = initialState, action) => {
         ...state,
         data: action.payload,
       };
-    case LogIn:
+    case IsLogIn:
       return {
         ...state,
         loggedIn: action.payload,
       };
-    case Location:
+    case GetCityByCoordinate:
       return {
         ...state,
-        location: action.payload,
+        coordinate: action.payload,
       };
-    case Index:
-      return {
-        ...state,
-        index: action.payload,
-      };
-    case Weather:
+
+    case GetWeatherDetail:
       return {
         ...state,
         weatherDetail: action.payload,
       };
-    case Search:
+    case OnChangeCity:
       return {
         ...state,
         city: action.payload,
       };
-    case Count:
-      return {
-        ...state,
-        count: action.payload,
-      };
-    case Permission:
-      return {
-        ...state,
-        permission: action.payload,
-      };
-    case SearchByCity:
+
+    case GetSearchCityDetail:
       return {
         ...state,
         searchcity: action.payload,
       };
-    case HistoryUser:
-      return {
-        ...state,
-        history: action.payload,
-      };
-
     default:
       return state;
   }
 };
-export default login;
+export default weatherReducer;

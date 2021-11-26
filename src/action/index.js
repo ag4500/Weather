@@ -1,19 +1,15 @@
-export const LogIn = "LogIn";
+export const IsLogIn = "IsLogIn";
 export const SetUsers = "SetUsers";
 export const ShowHide = "ShowHide";
-export const Location = "Location";
-export const Index = "Index";
-export const Weather = "Weather";
-export const Search = "Search";
-export const Count = "Count";
-export const Permission = "Permission";
-export const SearchByCity = "SearchByCity";
-export const HistoryUser="HistoryUser"
-export const login = (payload) => ({
-  type: LogIn,
+export const GetCityByCoordinate = "GetCityByCoordinate";
+export const GetWeatherDetail = "GetWeatherDetail";
+export const OnChangeCity = "OnChangeCity";
+export const GetSearchCityDetail = "GetSearchCityDetail";
+export const isLogin = (payload) => ({
+  type: IsLogIn,
   payload,
 });
-export const setuser = (payload) => ({
+export const setUser = (payload) => ({
   type: SetUsers,
   payload,
 });
@@ -21,35 +17,20 @@ export const showHide = (payload) => ({
   type: ShowHide,
   payload,
 });
-export const location = (payload) => ({
-  type: Location,
+export const getCityByCoordinate = (payload) => ({
+  type: GetCityByCoordinate,
   payload,
 });
-export const index = (payload) => ({
-  type: Index,
+
+export const getWeatherDetail = (payload) => ({
+  type: GetWeatherDetail,
   payload,
 });
-export const weather = (payload) => ({
-  type: Weather,
+export const onChangeCity = (payload) => ({
+  type: OnChangeCity,
   payload,
 });
-export const search = (payload) => ({
-  type: Search,
+export const getSearchCityDetail = (payload) => ({
+  type: GetSearchCityDetail,
   payload,
 });
-export const searchByCity = (payload) => ({
-  type: SearchByCity,
-  payload,
-});
-export const count = (payload) => ({
-  type: Count,
-  payload,
-});
-export const permission = (payload) => ({
-  type: Permission,
-  payload,
-});
-export const historyUser =(payload)=>({
-  type:HistoryUser,
-  payload,
-})
