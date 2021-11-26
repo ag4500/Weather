@@ -9,6 +9,7 @@ const GetHistory = () => {
       <div className="container">
         <div className="row">
           <div className="col-6">
+            <h4>User History</h4>
             <Table striped bordered hover size="lg">
               <thead>
                 <tr>
@@ -31,7 +32,8 @@ const GetHistory = () => {
             </Table>
           </div>
           <div className="col-3">
-            {" "}
+            
+            <h4>City History</h4>
             <Table striped bordered hover size="lg">
               <thead>
                 <tr>
@@ -43,7 +45,7 @@ const GetHistory = () => {
                 {cities
                   ? cities.map((data, index) => (
                       <tr key={index}>
-                        <td>{data.city}</td>
+                        <td>{data.cities}</td>
                         <td>{data.date}</td>
                       </tr>
                     ))

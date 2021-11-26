@@ -1,7 +1,7 @@
 import { Form } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-import { setUser, isLogin, showHide } from "../action";
+import { setUser, isLogin, findUserIndex, showHide } from "../action";
 import user from "../api/details.json";
 import { useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,26 +15,25 @@ const Login = () => {
     const matchUser = user.find(
       (i) => i.username == username && i.password == password
     );
+
     if (matchUser) {
-      let userData = {
-        name: username,
-        count: 1,
-        date: new Date().toLocaleString(),
-      };
+      const getIndex = user.findIndex(
+        (i) => i.username == username && i.password == password
+      );
+      dispatch(findUserIndex(getIndex));
       let getdata = localStorage.getItem("historydata") || "[]";
       let parsedata = JSON.parse(getdata);
-      
-      parsedata.map((i) => {
-        if (i.name == userData.name) {
-          userData.count += 1;
-        }
-      });
-      console.log(parsedata,getdata)
-      
-      localStorage.setItem(
-        "historydata",
-        JSON.stringify(parsedata.concat(userData))
-      );
+      let data = parsedata.find((i) => i.name == username);
+      if (data) {
+        data.count += 1;
+      } else {
+        parsedata.push({
+          name: username,
+          count: 1,
+          date: new Date().toLocaleString(),
+        });
+      }
+      localStorage.setItem("historydata", JSON.stringify(parsedata));
       dispatch(
         isLogin(!updateUsers.loggedIn),
         (updateUsers.data = updateUsers.record)

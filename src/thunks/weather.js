@@ -21,12 +21,14 @@ export const getCityCoordinate = (data) => async (dispatch) => {
   }
 };
 export const searchCity=(searchcity)=>async(dispatch)=>{
+  console.log(searchcity)
   try {
     const searchcitys = await axios.get(
       `https://api.openweathermap.org/data/2.5/weather?q=${searchcity}&appid=55228663782794261c86a7a39a9d3ce7`
     );
     dispatch(getSearchCityDetail(searchcitys.data));
   } catch (error) {
-    console.log("errror");
+
+    console.log("errror",searchcity);
   }
 }

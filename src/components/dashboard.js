@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { isLogin, getCityByCoordinate, onChangeCity } from "../action";
+import {isLogin, getCityByCoordinate, setCity } from "../action";
 import {
   getCityWeather,
   searchCity,
@@ -16,15 +16,18 @@ const DashBoard = () => {
   const dispatch = useDispatch();
   onchange = (e) => {
     locations.city = e.target.value;
-    dispatch(onChangeCity(locations.city));
+    dispatch(setCity(locations.city));
   };
   const handleLogOut = () => {
-    dispatch(isLogin(!locations.loggedIn));
+    dispatch(isLogin(!locations.loggedIn, (locations.data = locations.record)));
     history.push("/");
   };
   const OnSubmit = (e) => {
     e.preventDefault();
-    let cityData = { city: locations.city, date: new Date().toLocaleString() };
+    let cityData = {
+      cities: locations.city,
+      date: new Date().toLocaleString(),
+    };
     let getdata = localStorage.getItem("citydata") || "[]";
     let parsedata = JSON.parse(getdata);
     localStorage.setItem(
@@ -86,7 +89,7 @@ const DashBoard = () => {
                     </Card.Body>
                   </Card>
                 ))
-              : "Hiii"}
+              : undefined}
             <div className="col">
               {locations.weatherDetail.weather ? (
                 <Card style={{ width: "18rem" }}>
@@ -110,11 +113,10 @@ const DashBoard = () => {
                   </Card.Body>
                 </Card>
               ) : (
-                "wait"
+                "loading...."
               )}
             </div>
           </div>
-
           <div className="col">
             <form onSubmit={OnSubmit}>
               <input

@@ -14,5 +14,21 @@
     "email": "cust@123",
     "city": "bhopal",
     "id":2
+  },
+  {
+    "username": "cust1500",
+    "password": 654321,
+    "name": "Customer2",
+    "email": "cust@123",
+    "city": "rajasthan",
+    "id":3
+  },
+  {
+    "username": "cust2000",
+    "password": 654321,
+    "name": "Customer3",
+    "email": "cust@123",
+    "city": "goa",
+    "id":4
   }
 ]

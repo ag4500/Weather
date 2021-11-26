@@ -1,11 +1,12 @@
 import {
-  IsLogIn,
-  SetUsers,
-  OnChangeCity,
-  ShowHide,
-  GetCityByCoordinate,
-  GetWeatherDetail,
-  GetSearchCityDetail,
+  Is_LogIn,
+  Set_Users,
+  Set_City,
+  Show_Hide,
+  Get_CityByCoordinate,
+  Get_Weather_Detail,
+  Get_SearchCity_Detail,
+  Find_User_Index,
 } from "../action";
 const initialState = {
   toggle: false,
@@ -22,45 +23,54 @@ const initialState = {
   searchcity: [],
   weatherDetail: [],
   city: "",
+  index:null
 };
 const weatherReducer = (state = initialState, action) => {
+  
   switch (action.type) {
-    case ShowHide:
+    
+    case Show_Hide:
       return {
         ...state,
         toggle: action.payload,
       };
-    case SetUsers:
+    case Set_Users:
       return {
         ...state,
         data: action.payload,
       };
-    case IsLogIn:
+    case Is_LogIn:
       return {
         ...state,
         loggedIn: action.payload,
       };
-    case GetCityByCoordinate:
+    case Get_CityByCoordinate:
       return {
         ...state,
         coordinate: action.payload,
       };
 
-    case GetWeatherDetail:
+    case Get_Weather_Detail:
       return {
         ...state,
         weatherDetail: action.payload,
       };
-    case OnChangeCity:
+    case Set_City:
+      debugger
       return {
         ...state,
         city: action.payload,
       };
 
-    case GetSearchCityDetail:
+    case Get_SearchCity_Detail:
       return {
         ...state,
         searchcity: action.payload,
+      };
+    case Find_User_Index:
+      return {
+        ...state,
+        index: action.payload,
       };
     default:
       return state;
