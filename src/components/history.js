@@ -1,6 +1,6 @@
 import { Table } from "react-bootstrap";
 const GetHistory = () => {
-  const usersDataString = localStorage.getItem("users");
+  const usersDataString = localStorage.getItem("historydata");
   const users = JSON.parse(usersDataString);
   const cityDataString = localStorage.getItem("citydata");
   const cities = JSON.parse(cityDataString);
@@ -14,15 +14,16 @@ const GetHistory = () => {
                 <tr>
                   <th>UserName</th>
                   <th>LogInDateTime</th>
-                  
+                  <th>count</th>
                 </tr>
               </thead>
               <tbody>
                 {users
                   ? users.map((data) => (
                       <tr key={data.id}>
-                        <td>{data.username}</td>
+                        <td>{data.name}</td>
                         <td>{data.date}</td>
+                        <td>{data.count}</td>
                       </tr>
                     ))
                   : "No History Available"}

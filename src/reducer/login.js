@@ -9,6 +9,7 @@ import {
   Index,
   SearchByCity,
   Permission,
+  HistoryUser,
 } from "../action";
 const initialState = {
   toggle: false,
@@ -28,6 +29,7 @@ const initialState = {
   city: "",
   count: [],
   permission: false,
+  history:1
 };
 const login = (state = initialState, action) => {
   switch (action.type) {
@@ -80,6 +82,11 @@ const login = (state = initialState, action) => {
       return {
         ...state,
         searchcity: action.payload,
+      };
+    case HistoryUser:
+      return {
+        ...state,
+        history: action.payload,
       };
 
     default:

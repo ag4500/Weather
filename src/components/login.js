@@ -1,7 +1,7 @@
 import { Form } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
 import { Button } from "react-bootstrap";
-import { setuser, count, login, showHide, index } from "../action";
+import { setuser, count,historyUser, login, showHide, index } from "../action";
 import user from "../api/details.json";
 import { useHistory } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
@@ -33,7 +33,19 @@ const Login = () => {
         (updateUsers.data = updateUsers.record)
       );
       dispatch(showHide(!updateUsers.toggle));
-      history.push("/dashboard");
+      let userData = { name: username,count:updateUsers.history, date: new Date().toLocaleString() };
+      let getdata = localStorage.getItem("historydata") || "[]";
+      let parsedata = JSON.parse(getdata);
+      if (parsedata.name==username){
+        parsedata.count+=1
+        dispatch(historyUser(updateUsers.count+1))
+        alert(parsedata,username)
+      }
+      localStorage.setItem(
+      "historydata",
+      JSON.stringify(parsedata.concat(userData))
+    );
+      //history.push("/dashboard");
       dispatch(index(userindex));
     } else {
       alert("please Logged In with valid username and password");

@@ -30,12 +30,6 @@ const DashBoard = () => {
     dispatch(searchCity(locations.city));
   };
   useEffect(() => {
-    let getname = localStorage.getItem("users") || "[]";
-    const getusers = JSON.parse(getname);
-    localStorage.setItem(
-      "users",
-      JSON.stringify(getusers.concat(locations.count))
-    );
     function success(position) {
       const { latitude, longitude } = position.coords;
       const data = { ...locations.location, latitude, longitude };
