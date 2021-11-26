@@ -19,7 +19,7 @@ const DashBoard = () => {
     dispatch(onChangeCity(locations.city));
   };
   const handleLogOut = () => {
-    dispatch(isLogin(!locations.loggedIn, (locations.data = locations.record)));
+    dispatch(isLogin(!locations.loggedIn));
     history.push("/");
   };
   const OnSubmit = (e) => {

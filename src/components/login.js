@@ -23,11 +23,14 @@ const Login = () => {
       };
       let getdata = localStorage.getItem("historydata") || "[]";
       let parsedata = JSON.parse(getdata);
+      
       parsedata.map((i) => {
         if (i.name == userData.name) {
           userData.count += 1;
         }
       });
+      console.log(parsedata,getdata)
+      
       localStorage.setItem(
         "historydata",
         JSON.stringify(parsedata.concat(userData))
