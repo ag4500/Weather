@@ -62,7 +62,7 @@ const DashBoard = () => {
     } else {
       alert("Sorry Not available!");
     }
-    console.log(navigator);
+   
   }, []);
   return (
     <>
