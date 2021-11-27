@@ -32,6 +32,7 @@ export const setCity = (payload) => ({
   type: Set_City,
   payload,
 });
+
 export const findUserIndex = (payload) => ({
   type: Find_User_Index,
   payload,

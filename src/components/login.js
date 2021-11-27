@@ -15,7 +15,6 @@ const Login = () => {
     const matchUser = user.find(
       (i) => i.username == username && i.password == password
     );
-
     if (matchUser) {
       const getIndex = user.findIndex(
         (i) => i.username == username && i.password == password
@@ -34,10 +33,8 @@ const Login = () => {
         });
       }
       localStorage.setItem("historydata", JSON.stringify(parsedata));
-      dispatch(
-        isLogin(!updateUsers.loggedIn),
-        (updateUsers.data = updateUsers.record)
-      );
+      dispatch(isLogin(!updateUsers.loggedIn));
+      dispatch(setUser((updateUsers.data = updateUsers.record)));
       dispatch(showHide(!updateUsers.toggle));
       history.push("/dashboard");
     } else {
@@ -53,8 +50,8 @@ const Login = () => {
   const { username, password } = updateUsers.data;
   const onChange = (e) => {
     const { name, value } = e.target;
-    const addusers = { ...updateUsers.data, [name]: value };
-    dispatch(setUser(addusers));
+    const loginusers = { ...updateUsers.data, [name]: value };
+    dispatch(setUser(loginusers));
   };
   return (
     <>

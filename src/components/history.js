@@ -32,7 +32,6 @@ const GetHistory = () => {
             </Table>
           </div>
           <div className="col-3">
-            
             <h4>City History</h4>
             <Table striped bordered hover size="lg">
               <thead>

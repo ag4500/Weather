@@ -1,5 +1,11 @@
 import { useEffect } from "react";
-import {isLogin, getCityByCoordinate, setCity } from "../action";
+import {
+  isLogin,
+  getCityByCoordinate,
+  getSearchCityDetail,
+  setCity,
+  getWeatherDetail,
+} from "../action";
 import {
   getCityWeather,
   searchCity,
@@ -15,17 +21,20 @@ const DashBoard = () => {
   const locations = useSelector((state) => state.weatherReducer);
   const dispatch = useDispatch();
   onchange = (e) => {
-    locations.city = e.target.value;
-    dispatch(setCity(locations.city));
+    const { name, value } = e.target;
+    const city = { [name]: value };
+    dispatch(setCity(city));
   };
   const handleLogOut = () => {
-    dispatch(isLogin(!locations.loggedIn, (locations.data = locations.record)));
+    dispatch(isLogin(!locations.loggedIn));
+    dispatch(getWeatherDetail((locations.weatherDetail = [])));
+    dispatch(getSearchCityDetail((locations.searchcity = locations.record)));
     history.push("/");
   };
   const OnSubmit = (e) => {
     e.preventDefault();
     let cityData = {
-      cities: locations.city,
+      cities: locations.city.city,
       date: new Date().toLocaleString(),
     };
     let getdata = localStorage.getItem("citydata") || "[]";
@@ -34,7 +43,7 @@ const DashBoard = () => {
       "citydata",
       JSON.stringify(parsedata.concat(cityData))
     );
-    dispatch(searchCity(locations.city));
+    dispatch(searchCity(locations.city.city));
   };
   useEffect(() => {
     function success(position) {
@@ -62,7 +71,6 @@ const DashBoard = () => {
     } else {
       alert("Sorry Not available!");
     }
-   
   }, []);
   return (
     <>
@@ -77,7 +85,6 @@ const DashBoard = () => {
                 ? locations.weatherDetail.name
                 : undefined}
             </Card.Header>
-
             {locations.weatherDetail.weather
               ? locations.weatherDetail.weather.map((i) => (
                   <Card style={{ width: "18rem" }}>
@@ -96,8 +103,9 @@ const DashBoard = () => {
                   <Card.Body>
                     <Card.Title>Temperature</Card.Title>
                     <Card.Text>
-                      Max. Temperature : {locations.weatherDetail.main.temp}
+                      Temperature : {locations.weatherDetail.main.temp}
                     </Card.Text>
+
                     <Card.Text>
                       {" "}
                       Pressure:
@@ -108,7 +116,11 @@ const DashBoard = () => {
                       Humidity :{locations.weatherDetail.main.humidity}
                     </Card.Text>
                     <Card.Text>
-                      Speed : {locations.weatherDetail.wind.speed}
+                      Degree : {locations.weatherDetail.wind.deg}&deg;C
+                    </Card.Text>
+
+                    <Card.Text>
+                      Wind Speed : {locations.weatherDetail.wind.speed}
                     </Card.Text>
                   </Card.Body>
                 </Card>
@@ -123,7 +135,7 @@ const DashBoard = () => {
                 className="form-control me-2"
                 type="search"
                 name="city"
-                value={locations.city}
+                value={locations.city.city}
                 onChange={(event) => onchange(event)}
                 placeholder="Search By City"
                 aria-label="Search"
@@ -155,26 +167,31 @@ const DashBoard = () => {
               : undefined}
             <div className="col">
               {locations.searchcity.weather ? (
-                <Card style={{ width: "18rem" }}>
-                  <Card.Body>
-                    <Card.Title>Temperature</Card.Title>
-                    <Card.Text>
-                      Max. Temperature : {locations.searchcity.main.temp}
-                    </Card.Text>
-                    <Card.Text>
-                      {" "}
-                      Pressure:
-                      {locations.searchcity.main.pressure}
-                    </Card.Text>
-                    <Card.Text>
-                      {" "}
-                      Humidity :{locations.searchcity.main.humidity}
-                    </Card.Text>
-                    <Card.Text>
-                      Speed : {locations.searchcity.wind.speed}
-                    </Card.Text>
-                  </Card.Body>
-                </Card>
+                <>
+                  <Card style={{ width: "18rem" }}>
+                    <Card.Body>
+                      <Card.Title>Temperature</Card.Title>
+                      <Card.Text>
+                        Temperature : {locations.searchcity.main.temp}
+                      </Card.Text>
+                      <Card.Text>
+                        {" "}
+                        Pressure:
+                        {locations.searchcity.main.pressure}
+                      </Card.Text>
+                      <Card.Text>
+                        {" "}
+                        Humidity :{locations.searchcity.main.humidity}
+                      </Card.Text>
+                      <Card.Text>
+                        Degree : {locations.searchcity.wind.deg}&deg;C
+                      </Card.Text>
+                      <Card.Text>
+                        Wind Speed : {locations.searchcity.wind.speed}
+                      </Card.Text>
+                    </Card.Body>
+                  </Card>
+                </>
               ) : undefined}
             </div>
           </div>

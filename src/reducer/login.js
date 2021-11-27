@@ -20,15 +20,13 @@ const initialState = {
     latitude: "",
     longitude: "",
   },
-  searchcity: [],
+  searchcity: {},
   weatherDetail: [],
-  city: "",
-  index:null
+  city: {},
+  index: null,
 };
 const weatherReducer = (state = initialState, action) => {
-  
   switch (action.type) {
-    
     case Show_Hide:
       return {
         ...state,
@@ -56,7 +54,6 @@ const weatherReducer = (state = initialState, action) => {
         weatherDetail: action.payload,
       };
     case Set_City:
-      
       return {
         ...state,
         city: action.payload,
