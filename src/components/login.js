@@ -25,6 +25,7 @@ const Login = () => {
       let data = parsedata.find((i) => i.name == username);
       if (data) {
         data.count += 1;
+        data.date=new Date().toLocaleString();
       } else {
         parsedata.push({
           name: username,
